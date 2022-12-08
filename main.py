@@ -14,7 +14,7 @@ usernames = ['Loopifyyy', 'punk6529']
 
 for username in usernames:
     user = client.get_user(username=username)
-    print('Username: ' + str(user.data.name) +
+    print('Username: ' + str(user.data.username) +
           ', User ID: ' + str(user.data.id))
 
     thread = []
@@ -38,5 +38,5 @@ for username in usernames:
     for tweet in reversed(thread):
         temp += tweet + '\n'
         print('Tweet:\n' + tweet)
-    send_email(user.data.name, temp)
+    send_email(user.data.username, temp)
 
