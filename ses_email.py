@@ -5,7 +5,7 @@ from datetime import date
 
 
 def send_email(username, thread):
-    SENDER = "Threader <smemseth@gmail.com>"
+    SENDER = "Threader <avrachimi@gmail.com>"
 
     RECIPIENT = "avrachimi@hotmail.com"
 
