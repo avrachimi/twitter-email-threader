@@ -27,9 +27,10 @@ p {
     width: 88%;
     font-size: 1.3rem;
     padding: .5em;
-    border: 3px blue solid;
+    border: 3px rgba(0, 0, 255, 0.638) solid;
     border-radius: .2em;
     text-align: left;
+    background-color: rgba(211, 211, 204, 0.711);
 }
 
 a {
