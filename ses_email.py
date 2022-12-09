@@ -2,9 +2,36 @@
 from botocore.exceptions import ClientError
 import boto3
 from datetime import date
+from airium import Airium
 
+def get_HTML(user, thread, conversation_id):
+    css_string = ''
+    with open('email.css', 'r') as f:
+        css_string = f.read()
+    a = Airium()
 
-def send_email(username, thread):
+    a('<!DOCTYPE html>')
+    with a.html():
+        with a.head():
+            with a.style():
+                a(css_string)
+        with a.body():
+            a.img(src=user.profile_image_url, alt="{}'s profile picture".format(user.username))
+            with a.h1():
+                a(user.username)
+            for tweet in reversed(thread):
+                with a.p():
+                    tweet = tweet.replace('\n', '<br>')
+                    a(tweet)
+
+            with a.a(href='https://twitter.com/{}/status/{}'.format(user.username, conversation_id)):
+                a('View thread on Twitter')
+
+                
+    html = str(a)
+    return html
+
+def send_email(user, thread, conversation_id):
     SENDER = "Threader <avrachimi@gmail.com>"
 
     RECIPIENT = "avrachimi@hotmail.com"
@@ -12,16 +39,13 @@ def send_email(username, thread):
     AWS_REGION = "eu-west-2"
 
     today = date.today().strftime("%d %B %Y")
-    SUBJECT = "{} Thread: {}".format(username, today)
+    SUBJECT = "{} Thread: {}".format(user.username, today)
 
     # The email body for recipients with non-HTML email clients.
-    BODY_TEXT = 'Tweet thread from {}: {}'.format(username, str(thread))
+    BODY_TEXT = 'Tweet thread from {}: {}'.format(user.username, str(thread))
 
     # The HTML body of the email.
-    html_string = ''
-    with open('email.html', 'r') as f:
-        html_string = f.read()
-    BODY_HTML = html_string.format(username, thread)
+    BODY_HTML = get_HTML(user, thread, conversation_id)
 
     # The character encoding for the email.
     CHARSET = "UTF-8"
