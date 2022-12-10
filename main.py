@@ -5,13 +5,22 @@ import boto3
 from ses_email import send_email
 import tweepy
 import os
+from datetime import date
 from dotenv import load_dotenv
 load_dotenv()
 
 
-client = tweepy.Client(bearer_token=os.getenv('BEARER_TOKEN'))
+client_bearer = tweepy.Client(bearer_token=os.getenv('BEARER_TOKEN'))
 
-usernames = ['Loopifyyy', 'punk6529']
+client = tweepy.Client(
+    consumer_key=os.getenv('CONSUMER_KEY'),
+    consumer_secret=os.getenv('CONSUMER_SECRET'),
+    access_token=os.getenv('ACCESS_TOKEN'),
+    access_token_secret=os.getenv('TOKEN_SECRET')
+)
+
+usernames = ['Loopifyyy', 'punk6529', 'OGDfarmer', 'BoredApeYC',
+             'Hackatao', 'cobie', 'punk9059', 'iamDCinvestor']
 
 # Setup DynamoDB table
 table_name = 'thread'
@@ -24,24 +33,29 @@ if not threads_table_exists:
 
 # Look through users' tweets to find threads
 for username in usernames:
-    user = client.get_user(username=username, user_fields=['profile_image_url'])
+    user = client_bearer.get_user(username=username, user_fields=['profile_image_url'])
     print('Username: {}, User ID: {}'.format(str(user.data.username), str(user.data.id)))
 
     thread = []
     in_conversation = False
     found_thread = False
-    for tweets in tweepy.Paginator(client.get_users_tweets, user.data.id, exclude=['retweets', 'replies'], tweet_fields=['conversation_id']):
+    conversation_id = None
+    for tweets in tweepy.Paginator(client.get_users_tweets, user.data.id, exclude=['retweets', 'replies'], expansions=['attachments.media_keys'],
+                                   max_results=100, media_fields=['url'], tweet_fields=['conversation_id'], user_auth=True):
         for tweet in tweets.data:
-            if not (tweet.conversation_id == tweet.id):
-                thread_exists = threads.get_thread(tweet.conversation_id, user.data.id) != None
+            if not (tweet.conversation_id == tweet.id) and (tweet.conversation_id != None):
+                thread_exists = (threads.get_thread(tweet.conversation_id, user.data.id) != None)
                 if (thread_exists):
                     found_thread = True
-                    print('Thread {} already exists in DB'.format(tweet.conversation_id))
+                    print('Thread {} already exists in DB'.format(
+                        tweet.conversation_id))
                     break
-                thread.append(tweet.text)
+                #print(tweets.includes['media'][15].url)
+                thread.append({'text': tweet.text, 'media_url': None}) #TODO: find images for each tweet
                 in_conversation = True
-            elif (in_conversation and tweet.conversation_id == tweet.id):
-                thread.append(tweet.text)
+                conversation_id = tweet.conversation_id
+            elif (in_conversation and conversation_id == tweet.id):
+                thread.append({'text': tweet.text, 'media_url': None}) #TODO: find images for each tweet
                 threads.add_thread(tweet.conversation_id, user.data.id, user.data.username)
                 in_conversation = False
                 found_thread = True

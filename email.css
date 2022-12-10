@@ -21,6 +21,13 @@ img {
 
 h1 {
     font-size: 2.7rem;
+    padding-bottom: 0;
+    margin-bottom: .1em;
+}
+
+h2 {
+    color: rgba(128, 128, 128, 0.823);
+    margin: 0;
 }
 
 p {

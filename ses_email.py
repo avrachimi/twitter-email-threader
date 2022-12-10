@@ -18,11 +18,15 @@ def get_HTML(user, thread, conversation_id):
         with a.body():
             a.img(src=user.profile_image_url, alt="{}'s profile picture".format(user.username))
             with a.h1():
-                a(user.username)
-            for tweet in reversed(thread):
+                a(user.name)
+            with a.h2():
+                a('@' + user.username)
+            for tweet_obj in reversed(thread):
                 with a.p():
-                    tweet = tweet.replace('\n', '<br>')
-                    a(tweet)
+                    tweet_obj['text'] = tweet_obj['text'].replace('\n', '<br>')
+                    a(tweet_obj['text'])
+                    if (tweet_obj['media_url'] != None):
+                        a.img(src=tweet_obj['media_url'])
 
             with a.a(href='https://twitter.com/{}/status/{}'.format(user.username, conversation_id)):
                 a('View thread on Twitter')
@@ -32,9 +36,9 @@ def get_HTML(user, thread, conversation_id):
     return html
 
 def send_email(user, thread, conversation_id):
-    SENDER = "Threader <avrachimi@gmail.com>"
+    SENDER = "Threader <avrachimi@hotmail.com>"
 
-    RECIPIENT = "avrachimi@hotmail.com"
+    RECIPIENT = "avrachimi@gmail.com"
 
     AWS_REGION = "eu-west-2"
 
