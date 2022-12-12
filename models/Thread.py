@@ -97,3 +97,12 @@ class Thread:
             if (not 'Item' in response):
                 return None
             return response['Item']
+
+    def get_item_count(self):
+        try:
+            import boto3
+            response = boto3.client('dynamodb').describe_table(TableName=self.table.name)
+            return response['Table']['ItemCount']
+        except:
+            print ("Something went wrong while getting table item count")
+            return -1

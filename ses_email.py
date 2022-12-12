@@ -1,12 +1,12 @@
-
+import os
 from botocore.exceptions import ClientError
 import boto3
-from datetime import date
+from datetime import datetime
 from airium import Airium
 
 def get_HTML(user, thread, conversation_id):
     css_string = ''
-    with open('email.css', 'r') as f:
+    with open('email_template/email.css', 'r') as f:
         css_string = f.read()
     a = Airium()
 
@@ -36,13 +36,13 @@ def get_HTML(user, thread, conversation_id):
     return html
 
 def send_email(user, thread, conversation_id):
-    SENDER = "Threader <avrachimi@hotmail.com>"
+    SENDER = "Threader <{}>".format(os.getenv('EMAIL_SENDER'))
 
-    RECIPIENT = "avrachimi@gmail.com"
+    RECIPIENT = os.getenv('EMAIL_RECIPIENT')
 
     AWS_REGION = "eu-west-2"
 
-    today = date.today().strftime("%d %B %Y")
+    today = datetime.today().strftime("%d %B %Y, %H:%M")
     SUBJECT = "{} Thread: {}".format(user.username, today)
 
     # The email body for recipients with non-HTML email clients.
