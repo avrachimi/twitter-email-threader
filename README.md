@@ -10,6 +10,7 @@ I coded it using **Python** and deployed it on **AWS** using **Lambda**, **Dynam
 I tried my best to write thorough instructions below, let me know if something doesn't make sense.
 
 **Note**: Yeah I hate the nested for loops in `lambda_function.py` too, but it's good enough for my use case.
+
 ***
 ## How to Install and Run
 
@@ -20,7 +21,6 @@ I tried my best to write thorough instructions below, let me know if something d
 5. Create an AWS account if you don't have one and setup your access keys on your machine ([more info](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#configuration))
 6. Run `python3 lambda_function.py`
 
-***
 ## How to Deploy to AWS
 
 1. Create a Lambda deployment package following the instructions [here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html#python-package-create-package-with-dependency). 
@@ -41,7 +41,6 @@ I tried my best to write thorough instructions below, let me know if something d
 - [dotenv](https://pypi.org/project/python-dotenv/)  
 - [airium](https://pypi.org/project/airium/)  
 
-***
 ### Tech Stack
 - Python 3
 - AWS Lambda
