@@ -5,7 +5,7 @@ I'm not very active on Twitter nowadays and I'm missing some important tweets th
 
 This is definitely not 'production ready' and it wasn't meant to be offered as a service. *You can clone this repo and deploy it on AWS if you still want something like this. It's practically free to run this on AWS. More info below.*
 
-I coded it using **Python** and deployed it on **AWS** using **Lambda**, **DynamoDB** and **SES**.
+I coded it using **Python** and deployed it on **AWS** using **Lambda**, **EventBridge**, **DynamoDB** and **SES**. EventBridge was used to trigger the Lambda function **every 6 hours**.
 
 I tried my best to write thorough instructions below, let me know if something doesn't make sense.
 
