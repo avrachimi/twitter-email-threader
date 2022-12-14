@@ -30,7 +30,7 @@ I tried my best to write thorough instructions below, let me know if something d
 3. Add the appropriate policies to the Lambda function IAM Role for DynamoDB and SES access. ([more info](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html))
 4. Change function timeout to ~30 seconds (or a longer time frame, depending on the number of Twitter users this script will go through). ([more info](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-timeout-console))
 5. Add Environment Variables to your Lambda function for Twitter (`CONSUMER_KEY`, `CONSUMER_SECRET`, `ACCESS_TOKEN`, `TOKEN_SECRET`, `BEARER_TOKEN`) and Email (`EMAIL_SENDER`, `EMAIL_RECIPIENT`).
-6. Test your Function! You should receive a few emails with threads from the accounts you specified in *Step 4* of the previous segment.
+6. Test your Function! You should receive a few emails with threads from the accounts you specified in *Step 3* of the previous segment.
 7. Create an EventBridge Trigger for your Lambda function and schedule it to run every 6 hours. ([more info](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-run-lambda-schedule.html))
 8. Done! Things might break, sorry. Let me know if they do :)
 
