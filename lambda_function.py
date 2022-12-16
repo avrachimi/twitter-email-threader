@@ -62,6 +62,7 @@ def lambda_handler(event, context):
                     in_conversation = False
                     conversation_id = None
                     send_email(user.data, thread, tweet.conversation_id)
+                    thread = []
                     # If running for the first time, break out of it after first thread is found.
                     if (threads.get_item_count() == 0):
                         found_thread = True
